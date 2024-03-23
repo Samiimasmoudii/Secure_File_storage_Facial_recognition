@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<form method="POST">
+<form action="/login" method="POST">
     <h3 style="text-align: left" > Login</h3>
     <div class="form-group" style="display: table-row">
         <label for="email" style="display:table-cell">Email address</label>
@@ -19,6 +19,6 @@
     </div>
   
     <br />
-    <button type="submit" class= "btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>
 {% endblock %}
