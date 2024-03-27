@@ -16,9 +16,26 @@ def create_app():
     app.register_blueprint(views,url_prefix='/')
     app.register_blueprint(auth,url_prefix='/')
     from website.models import User, Note
-     
+    with app.app_context():
+        db.create_all()
     return app
 def create_database(app):
-    if not path.exists('website/'+DB_NAME):
+    if not path.exists('website/' + DB_NAME):
+        # Create all tables
         db.create_all(app=app)
+
+        # If the tables are created successfully, print a success message
         print('Database created successfully')
+
+        # Ensure that the User table is created before the Note table
+        from .models import User, Note
+        db.session.commit()  # Commit any changes before creating tables
+        db.reflect()
+        db.create_all(app=app, tables=[User.__table__])
+
+        # Create all other tables
+        db.create_all(app=app, tables=[Note.__table__])
+
+        print('All tables created successfully')
+    else:
+        print('Database already exists')
