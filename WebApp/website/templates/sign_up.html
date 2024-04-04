@@ -3,6 +3,31 @@
 
 
 {% block content %}
+<style>
+    /* Override Bootstrap styles */
+    form{
+        align-items: center;
+    }
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .form-group {
+        max-width: 400px; /* Constrain the width */
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex !important; /* Override display property */
+        flex-direction: column; /* Reset flex direction */
+        align-items: center; /* Reset alignment */
+    }
+    .form-group label {
+        margin-bottom: 5px; /* Adjust label spacing */
+    }
+    .form-group input {
+        width: 100%; /* Ensure input fields take full width */
+    }
+</style>
 <form method="POST" action = "/signup">
     <h3 style="text-align: left" > Sign Up</h3>
     <div class="form-group" style="display: table-row">
@@ -12,7 +37,7 @@
     </div>
     <div class="form-group" style="display: table-row">
         <label for="firstName" style="display:table-cell">First Name</label>
-        <input type="text" style="display:table-cell" class="form-control" id="firstName" name="firstName" placeholder="Enter First Nasme" />
+        <input type="text" style="display:table-cell" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" />
 
     </div>
     <div class="form-group" style="display: table-row">
