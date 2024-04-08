@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+<title>{% block title %}Home{% endblock %}</title>
+<h1>This is the Account Settings page </h1>
+
+
+
+
+
+{% block content %}
+
+<body>
+    <div class="col-md-3 md-margin-bottom-40">
+        <img class="img-responsive profile-img margin-bottom-20" src="assets/img/team/img32-md.jpg" alt="">
+
+        <ul class="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
+            <li class="list-group-item">
+                <a href="page_profile.html"><i class="fa fa-bar-chart-o"></i> Overall</a>
+            </li>
+            <li class="list-group-item active">
+                <a href="page_profile_me.html"><i class="fa fa-user"></i> Profile</a>
+            </li>
+            <li class="list-group-item">
+                <a href="page_profile_users.html"><i class="fa fa-group"></i> Users</a>
+            </li>
+            <li class="list-group-item">
+                <a href="page_profile_projects.html"><i class="fa fa-cubes"></i> My Projects</a>
+            </li>
+            <li class="list-group-item">
+                <a href="page_profile_comments.html"><i class="fa fa-comments"></i> Comments</a>
+            </li>
+            <li class="list-group-item">
+                <a href="page_profile_history.html"><i class="fa fa-history"></i> History</a>
+            </li>
+            <li class="list-group-item">
+                <a href="page_profile_settings.html"><i class="fa fa-cog"></i> Settings</a>
+            </li>
+        </ul>
+
+        <div class="panel-heading-v2 overflow-h">
+            <h2 class="heading-xs pull-left"><i class="fa fa-bar-chart-o"></i> Task Progress</h2>
+            <a href="#"><i class="fa fa-cog pull-right"></i></a>
+        </div>
+        <h3 class="heading-xs">Web Design <span class="pull-right">92%</span></h3>
+        <div class="progress progress-u progress-xxs">
+            <div style="width: 92%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="92" role="progressbar"
+                class="progress-bar progress-bar-u">
+            </div>
+        </div>
+        <h3 class="heading-xs">Unify Project <span class="pull-right">85%</span></h3>
+        <div class="progress progress-u progress-xxs">
+            <div style="width: 85%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="85" role="progressbar"
+                class="progress-bar progress-bar-blue">
+            </div>
+        </div>
+        <h3 class="heading-xs">Sony Corporation <span class="pull-right">64%</span></h3>
+        <div class="progress progress-u progress-xxs margin-bottom-40">
+            <div style="width: 64%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="64" role="progressbar"
+                class="progress-bar progress-bar-dark">
+            </div>
+        </div>
+
+        <hr>
+
+        <!--Notification-->
+        <div class="panel-heading-v2 overflow-h">
+            <h2 class="heading-xs pull-left"><i class="fa fa-bell-o"></i> Notification</h2>
+            <a href="#"><i class="fa fa-cog pull-right"></i></a>
+        </div>
+        <ul class="list-unstyled mCustomScrollbar margin-bottom-20 _mCS_1 mCS-autoHide" data-mcs-theme="minimal-dark"
+            style="position: relative; overflow: visible;">
+            <div id="mCSB_1" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0">
+                <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                    <li class="notification">
+                        <i class="icon-custom icon-sm rounded-x icon-bg-red icon-line icon-envelope"></i>
+                        <div class="overflow-h">
+                            <span><strong>Albert Heller</strong> has sent you email.</span>
+                            <small>Two minutes ago</small>
+                        </div>
+                    </li>
+                    <li class="notification">
+                        <img class="rounded-x mCS_img_loaded" src="assets/img/testimonials/img6.jpg" alt="">
+                        <div class="overflow-h">
+                            <span><strong>Taylor Lee</strong> started following you.</span>
+                            <small>Today 18:25 pm</small>
+                        </div>
+                    </li>
+                    <li class="notification">
+                        <i class="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
+                        <div class="overflow-h">
+                            <span><strong>Natasha Kolnikova</strong> accepted your invitation.</span>
+                            <small>Yesterday 1:07 pm</small>
+                        </div>
+                    </li>
+                    <li class="notification">
+                        <img class="rounded-x mCS_img_loaded" src="assets/img/testimonials/img1.jpg" alt="">
+                        <div class="overflow-h">
+                            <span><strong>Mikel Andrews</strong> commented on your Timeline.</span>
+                            <small>23/12 11:01 am</small>
+                        </div>
+                    </li>
+                    <li class="notification">
+                        <i class="icon-custom icon-sm rounded-x icon-bg-blue icon-line fa fa-comments"></i>
+                        <div class="overflow-h">
+                            <span><strong>Bruno Js.</strong> added you to group chating.</span>
+                            <small>Yesterday 1:07 pm</small>
+                        </div>
+                    </li>
+                    <li class="notification">
+                        <img class="rounded-x mCS_img_loaded" src="assets/img/testimonials/img6.jpg" alt="">
+                        <div class="overflow-h">
+                            <span><strong>Taylor Lee</strong> changed profile picture.</span>
+                            <small>23/12 15:15 pm</small>
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div id="mCSB_1_scrollbar_vertical"
+                class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical"
+                style="display: block;">
+                <div class="mCSB_draggerContainer">
+                    <div id="mCSB_1_dragger_vertical" class="mCSB_dragger"
+                        style="position: absolute; min-height: 50px; display: block; height: 194px; max-height: 286px;"
+                        oncontextmenu="return false;">
+                        <div class="mCSB_dragger_bar" style="line-height: 50px;"></div>
+                    </div>
+                    <div class="mCSB_draggerRail"></div>
+                </div>
+            </div>
+        </ul>
+        <button type="button" class="btn-u btn-u-default btn-u-sm btn-block">Load More</button>
+        <!--End Notification-->
+
+        <div class="margin-bottom-50"></div>
+
+        <!--Datepicker-->
+        <form action="#" id="sky-form2" class="sky-form">
+            <div id="inline-start" class="hasDatepicker">
+                <div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
+                    style="display: block;">
+                    <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a
+                            class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click"
+                            title="<i class=&quot;fa fa-angle-left&quot;></i>"><span
+                                class="ui-icon ui-icon-circle-triangle-w"><i class="fa fa-angle-left"></i></span></a><a
+                            class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click"
+                            title="<i class=&quot;fa fa-angle-right&quot;></i>"><span
+                                class="ui-icon ui-icon-circle-triangle-e"><i class="fa fa-angle-right"></i></span></a>
+                        <div class="ui-datepicker-title"><span class="ui-datepicker-month">April</span>&nbsp;<span
+                                class="ui-datepicker-year">2024</span></div>
+                    </div>
+                    <table class="ui-datepicker-calendar">
+                        <thead>
+                            <tr>
+                                <th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th>
+                                <th><span title="Monday">Mo</span></th>
+                                <th><span title="Tuesday">Tu</span></th>
+                                <th><span title="Wednesday">We</span></th>
+                                <th><span title="Thursday">Th</span></th>
+                                <th><span title="Friday">Fr</span></th>
+                                <th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td
+                                    class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                    &nbsp;</td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">1</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">2</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">3</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">4</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">5</a></td>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">6</a></td>
+                            </tr>
+                            <tr>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">7</a></td>
+                                <td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today"
+                                    data-handler="selectDay" data-event="click" data-month="3" data-year="2024"><a
+                                        class="ui-state-default ui-state-highlight ui-state-active ui-state-hover"
+                                        href="#">8</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">9</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">10</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">11</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">12</a></td>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">13</a></td>
+                            </tr>
+                            <tr>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">14</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">15</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">16</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">17</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">18</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">19</a></td>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">20</a></td>
+                            </tr>
+                            <tr>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">21</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">22</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">23</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">24</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">25</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">26</a></td>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">27</a></td>
+                            </tr>
+                            <tr>
+                                <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                    data-month="3" data-year="2024"><a class="ui-state-default" href="#">28</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">29</a></td>
+                                <td class=" " data-handler="selectDay" data-event="click" data-month="3"
+                                    data-year="2024"><a class="ui-state-default" href="#">30</a></td>
+                                <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                    &nbsp;</td>
+                                <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                    &nbsp;</td>
+                                <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                    &nbsp;</td>
+                                <td
+                                    class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                    &nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        <!--End Datepicker-->
+    </div>
+    <div class="profile-bio">
+        <div class="row">
+            <div class="col-md-5">
+                <img class="img-responsive md-margin-bottom-10" src="assets/img/team/img32-md.jpg" alt="">
+                <a class="btn-u btn-u-sm" href="#">Change Picture</a>
+            </div>
+            <div class="col-md-7">
+                <h2>Edward Rooster</h2>
+                <span><strong>Job:</strong> Web Developer</span>
+                <span><strong>Position:</strong> Web Designer</span>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget massa nec turpis congue
+                    bibendum. Integer nulla felis, porta suscipit nulla et, dignissim commodo nunc. Morbi a semper
+                    nulla.</p>
+                <p>Proin mauris odio, pharetra quis ligula non, vulputate vehicula quam. Nunc in libero vitae nunc
+                    ultricies tincidunt ut sed leo. Sed luctus dui ut congue consequat. Cras consequat nisl ante, nec
+                    malesuada velit pellentesque ac. Pellentesque nec arcu in ipsum iaculis convallis.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
