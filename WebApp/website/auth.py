@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request,flash,redirect , url_for
+from flask import Blueprint, render_template, request,flash,redirect , url_for,session
 from .models import User
 from . import db
-from flask_login import login_user, login_required,logout_user, current_user
+from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -11,7 +11,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth',__name__ )
 @auth.route( '/login' , methods=['POST' ,'get' ])
-
 def login():
     data = request.form
     print(data)
@@ -23,10 +22,10 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in Successfully ', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.drive'))
             else :
                 flash('Login Error ! Please Check your Email and/or Password ', category='error')
-    return render_template( 'login.html')
+    return render_template('login.html')
 
 
 
@@ -36,16 +35,18 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    print("Logout route accessed")
     logout_user()   
     return redirect(url_for('auth.login'))
 
 
 @auth.route('/signup',methods=['POST', 'get'])
 def signup():
+    
     if request.method == 'POST':
         email=request.form.get('email')
         firstName=request.form.get('firstName')
-        user=User.query.filter_by(email=email)
+        user=User.query.filter_by(email=email).first()
         password1=request.form.get('password1')
         password2=request.form.get('password2')
         if user:

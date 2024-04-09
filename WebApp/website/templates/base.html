@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         crossorigin="anonymous" />
 </head>
-<title>{% block title %}Home{% endblock %}</title>
+<title>{% block title %}Base{% endblock %}</title>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,10 +19,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" id="home" href="/">Home</a>
+                <a class="nav-item nav-link" id="home" href="/home">Home</a>
                 <a class="nav-item nav-link" id='login' href="/login">LOGIN</a>
                 <a class="nav-item nav-link" id="signup" href="/signup">SIGNUP</a>
-                <a class="nav-item nav-link" id="logout" href="/">LOGOUT</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">LOGOUT</a>
 
             </div>
         </div>
@@ -43,7 +43,7 @@
     <!-- Your HTML content -->
 
 
-    {% block content %}{% endblock %}
+    {% block content %}This is Base {% endblock %}
 
 
     <script type="text/javascript" src="{{url_for('static',filename='index.js')}}"></script>

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
+import os
+from os import path, urandom
 from flask_login import LoginManager
 db= SQLAlchemy()
 DB_NAME= "database.db"
@@ -8,7 +9,7 @@ DB_NAME= "database.db"
 
 def create_app():
     app= Flask(__name__)
-    app.config['SECRET_KEY'] = 'kfjshflakjhflkj'
+    app.config['SECRET_KEY'] = os.urandom(32)
     app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DB_NAME}'    
     db.init_app(app)
   
@@ -28,6 +29,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
+    
     return app
 
 
