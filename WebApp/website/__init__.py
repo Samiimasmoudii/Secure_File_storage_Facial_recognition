@@ -12,6 +12,9 @@ def create_app():
     app.config['SECRET_KEY'] = os.urandom(32)
     app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DB_NAME}'  
     app.config['UPLOAD_FOLDER'] = r'WebApp\website\uploads'
+    app.config['STATIC_URL_PATH'] = '/static'
+    app.config['STATIC_FOLDER'] = 'static'
+
     upload_dir = os.path.join(app.instance_path, 'uploads')
     os.makedirs(upload_dir, exist_ok=True)
   

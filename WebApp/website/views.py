@@ -1,21 +1,28 @@
-
-
 from flask_login import login_required, current_user
-from flask import Blueprint, render_template, request,flash,redirect , url_for,session
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
-
-from flask import Flask, current_app
 import os
+
 views = Blueprint('views', __name__)
 
+
+def get_icon(filename):
+    _, extension = os.path.splitext(filename.lower())
+    if extension == '.pdf':
+        return 'pdf.png'
+    elif extension in ('.jpg', '.jpeg', '.png', '.gif'):
+        return 'image.png'
+    else:
+        return 'cloud.png'  # Default icon for unknown file types
+
 @views.route('/', methods=['get','POST'])
-def home ():
+def home():
     print(current_user.is_authenticated)
     return render_template('login.html') 
 
 @views.route('/home', methods=['get','POST'])       
 @login_required
-def drive ():
+def drive():
     print(current_user.is_authenticated)
     
     if current_user.is_authenticated:
@@ -23,12 +30,17 @@ def drive ():
         user_id = current_user.id
         username = current_user.first_name
         
-        print( f"User ID: {user_id}, Username: {username}")
+        print(f"User ID: {user_id}, Username: {username}")
     else:
         print("Not logged in")
     
-    return render_template('drive.html',user=current_user) 
-from flask import current_app
+    files = os.listdir(current_app.config['UPLOAD_FOLDER'])
+    print("Uploaded files are: ", files)
+
+    # Prepare a list of dictionaries containing filename and its corresponding icon
+    file_icons = [{'name': file, 'icon': get_icon(file),} for file in files]
+
+    return render_template('drive.html', user=current_user, files=file_icons) 
 
 @views.route('/upload', methods=['GET', 'POST'])       
 @login_required
@@ -53,13 +65,9 @@ def upload_file():
             return redirect(url_for('views.drive'))  # Redirect to the drive page after upload
     return render_template('drive.html')
 
-
-
-
-
 @views.route('/account', methods=['get','POST'])       
 @login_required
-def account ():
+def account():
     print(current_user.is_authenticated)
     
     if current_user.is_authenticated:
@@ -67,8 +75,8 @@ def account ():
         user_id = current_user.id
         username = current_user.first_name
         
-        flash( f"User ID: {user_id}, Username: {username}")
+        flash(f"User ID: {user_id}, Username: {username}")
     else:
         flash("Not logged in")
     
-    return render_template('account.html',user=current_user) 
+    return render_template('account.html', user=current_user) 
