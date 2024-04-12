@@ -9,6 +9,22 @@
 {% block content %}
 
 <body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+        <h1>Welcome, {{ current_user.username }}!</h1>
+    {% else %}
+        <h1>You are not logged in.</h1>
+    {% endif %}
+</body>
+</html>
+
     <div class="col-md-3 md-margin-bottom-40">
         <img class="img-responsive profile-img margin-bottom-20" src="assets/img/team/img32-md.jpg" alt="">
 

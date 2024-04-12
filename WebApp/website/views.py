@@ -1,7 +1,11 @@
-from flask import Blueprint, render_template
+
 
 from flask_login import login_required, current_user
 from flask import Blueprint, render_template, request,flash,redirect , url_for,session
+from werkzeug.utils import secure_filename
+
+from flask import Flask, current_app
+import os
 views = Blueprint('views', __name__)
 
 @views.route('/', methods=['get','POST'])
@@ -24,6 +28,33 @@ def drive ():
         print("Not logged in")
     
     return render_template('drive.html',user=current_user) 
+from flask import current_app
+
+@views.route('/upload', methods=['GET', 'POST'])       
+@login_required
+def upload_file():
+    if request.method == 'POST':
+        # Check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part', 'error')
+            return redirect(request.url)
+        file = request.files['file']
+        if file : 
+            print ("File Exists")
+        # If user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file', 'error')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            flash('File uploaded successfully', 'success')
+            return redirect(url_for('views.drive'))  # Redirect to the drive page after upload
+    return render_template('drive.html')
+
+
+
 
 
 @views.route('/account', methods=['get','POST'])       
@@ -41,4 +72,3 @@ def account ():
         flash("Not logged in")
     
     return render_template('account.html',user=current_user) 
-
