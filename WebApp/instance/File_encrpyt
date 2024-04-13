@@ -1,0 +1,78 @@
+import subprocess
+import os
+from cryptography.fernet import Fernet
+
+
+
+def encrypt_file(filename, key):
+    try:
+        # Read the file content
+        with open(filename, 'rb') as file:
+            original = file.read()
+            print("File loaded successfully")
+    except FileNotFoundError:
+        print("Error: File not found")
+        return None  # Return None if file is not found
+
+    # Encrypt the file content
+    fernet = Fernet(key)
+    encrypted = fernet.encrypt(original)
+    print("File encrypted successfully")
+
+    # Decompose the filename and extension
+    base_filename, extension = os.path.splitext(filename)
+
+    # Rename the encrypted file with the original extension
+    encrypted_filename = base_filename + '_encrypted' + extension
+    with open(encrypted_filename, 'wb') as encrypted_file:
+        encrypted_file.write(encrypted)
+
+    print(f"Encrypted file saved as: {encrypted_filename}")
+
+    return encrypted_filename  # Return the path of the encrypted file
+
+def decrypt_file(original_filename, key) :
+    # Load the encryption key from the key file
+   
+
+    # Initialize the Fernet instance with the key
+    fernet = Fernet(key)
+    base_filename, extension = os.path.splitext(original_filename)
+    # Read the encrypted data from the file
+    encrypted_file_path = base_filename + extension
+    
+    with open(encrypted_file_path, 'rb') as encrypted_file:
+        encrypted_data = encrypted_file.read()
+
+    # Decrypt the data
+    decrypted_data = fernet.decrypt(encrypted_data)
+
+    # Determine the original file path and extension
+    
+    decrypted_file_path = base_filename + "_decrypted" + extension
+
+    # Write the decrypted data to a new file
+    with open(decrypted_file_path, 'wb') as decrypted_file:
+        decrypted_file.write(decrypted_data)
+
+    print("File decrypted successfully:", decrypted_file_path)
+
+
+def main():
+    input_file = 'WebApp\instance\example.txt'
+    password = 'pwd'
+    key = Fernet.generate_key() 
+
+    # Encrypt the file
+    encrypted_file = encrypt_file(input_file, key)
+    print(f'File "{input_file}" encrypted successfully.')
+    
+    if encrypted_file is None:
+        print("Encryption failed. Exiting.")
+        return
+    decrypted_file = decrypt_file(encrypted_file,  key)
+    print(f'File "{encrypted_file}" decrypted successfully.')
+    
+if __name__ == '__main__':
+    main()
+                                               

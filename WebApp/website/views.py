@@ -1,6 +1,8 @@
 from flask_login import login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
+from cryptography.fernet import Fernet
+
 import os
 
 views = Blueprint('views', __name__)
@@ -14,6 +16,45 @@ def get_icon(filename):
         return 'image.png'
     else:
         return 'cloud.png'  # Default icon for unknown file types
+    
+
+
+def encrypt_file(filename):
+    # Read the key from the key file
+    key = Fernet.generate_key()
+
+    # Load the file content
+    try:
+        with open(filename, 'rb') as file:
+            original = file.read()
+            print("File loaded successfully")
+    except FileNotFoundError:
+        print("Error: File not found")
+        return
+
+    # Encrypt the file content
+    fernet = Fernet(key)
+    encrypted = fernet.encrypt(original)
+    print("File encrypted successfully")
+
+    # Decompose the filename and extension
+    base_filename, extension = os.path.splitext(filename)
+
+    # Rename the encrypted file with the original extension
+    encrypted_filename = base_filename + '_encrypted' + extension
+    with open(encrypted_filename, 'wb') as encrypted_file:
+        encrypted_file.write(encrypted)
+
+    # Destroy the original file if encryption is successful
+    try:
+        os.remove(filename)
+        print("Original file destroyed")
+    except FileNotFoundError:
+        print("Error: Original file not found")
+
+# Example usage:
+encrypt_file('nba.csv', 'filekey.key')
+
 
 @views.route('/', methods=['get','POST'])
 def home():
@@ -51,14 +92,14 @@ def upload_file():
             flash('No file part', 'error')
             return redirect(request.url)
         file = request.files['file']
-        if file : 
-            print ("File Exists")
+    
         # If user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file', 'error')
             return redirect(request.url)
         if file:
+            print('File Exists, Begin Uploading...')
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             flash('File uploaded successfully', 'success')
