@@ -61,8 +61,12 @@ def decrypt_file(original_filename, key) :
 def main():
     input_file = 'WebApp\instance\example.txt'
     password = 'pwd'
-    key = Fernet.generate_key() 
+  
+    with open('WebApp\instance\key.txt', 'rb') as f:
+        key = f.read()
 
+    
+   
     # Encrypt the file
     encrypted_file = encrypt_file(input_file, key)
     print(f'File "{input_file}" encrypted successfully.')

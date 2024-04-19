@@ -53,7 +53,7 @@ def encrypt_file(filename):
         print("Error: Original file not found")
 
 # Example usage:
-encrypt_file('nba.csv', 'filekey.key')
+
 
 
 @views.route('/', methods=['get','POST'])
