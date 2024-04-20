@@ -68,12 +68,15 @@ def main():
     
    
     # Encrypt the file
+    
     encrypted_file = encrypt_file(input_file, key)
-    print(f'File "{input_file}" encrypted successfully.')
+    
     
     if encrypted_file is None:
-        print("Encryption failed. Exiting.")
-        return
+        print("Encryption failed. Keeping Input file in original format")
+        return input_file
+    else:
+        print(f'File "{input_file}" encrypted successfully.')
     decrypted_file = decrypt_file(encrypted_file,  key)
     print(f'File "{encrypted_file}" decrypted successfully.')
     

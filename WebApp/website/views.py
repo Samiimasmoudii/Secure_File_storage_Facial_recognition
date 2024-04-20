@@ -2,11 +2,12 @@ from flask_login import login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
 from cryptography.fernet import Fernet
-
+import subprocess
 import os
 
 views = Blueprint('views', __name__)
-
+with open('WebApp\instance\key.txt', 'rb') as f:
+        key = f.read()
 
 def get_icon(filename):
     _, extension = os.path.splitext(filename.lower())
@@ -19,18 +20,16 @@ def get_icon(filename):
     
 
 
-def encrypt_file(filename):
-    # Read the key from the key file
-    key = Fernet.generate_key()
 
-    # Load the file content
+def encrypt_file(filename, key):
     try:
+        # Read the file content
         with open(filename, 'rb') as file:
             original = file.read()
             print("File loaded successfully")
     except FileNotFoundError:
         print("Error: File not found")
-        return
+        return None  # Return None if file is not found
 
     # Encrypt the file content
     fernet = Fernet(key)
@@ -44,15 +43,42 @@ def encrypt_file(filename):
     encrypted_filename = base_filename + '_encrypted' + extension
     with open(encrypted_filename, 'wb') as encrypted_file:
         encrypted_file.write(encrypted)
+        
+    
+    print(f"Encrypted file saved as: {encrypted_filename}")
 
-    # Destroy the original file if encryption is successful
-    try:
-        os.remove(filename)
-        print("Original file destroyed")
-    except FileNotFoundError:
-        print("Error: Original file not found")
+    return encrypted_filename  # Return the path of the encrypted file
 
-# Example usage:
+
+
+
+def decrypt_file(original_filename, encryption_key) :
+    # Load the encryption key from the key file
+   
+
+    # Initialize the Fernet instance with the key
+    fernet = Fernet(encryption_key)
+    base_filename, extension = os.path.splitext(original_filename)
+    # Read the encrypted data from the file
+    encrypted_file_path = base_filename + extension
+    
+    with open(encrypted_file_path, 'rb') as encrypted_file:
+        encrypted_data = encrypted_file.read()
+
+    # Decrypt the data
+    decrypted_data = fernet.decrypt(encrypted_data)
+
+    # Determine the original file path and extension
+    
+    decrypted_file_path = base_filename + "_decrypted" + extension
+
+    # Write the decrypted data to a new file
+    with open(decrypted_file_path, 'wb') as decrypted_file:
+        decrypted_file.write(decrypted_data)
+
+    print("File decrypted successfully:", decrypted_file_path)
+
+
 
 
 
@@ -101,8 +127,14 @@ def upload_file():
         if file:
             print('File Exists, Begin Uploading...')
             filename = secure_filename(file.filename)
-            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            flash('File uploaded successfully', 'success')
+            
+            file.save(os.path.join(current_app.config['TEMP_FILE_FOLDER'], filename))
+            flash('File Uploading...', 'success')
+            
+            #file_relative_path = os.path.relpath(file.name, os.getcwd())
+            encrypted_filename = encrypt_file(os.path.join(current_app.config['TEMP_FILE_FOLDER'], filename), key)
+            
+            os.rename(encrypted_filename, os.path.join(current_app.config['UPLOAD_FOLDER'], os.path.basename(encrypted_filename)))
             return redirect(url_for('views.drive'))  # Redirect to the drive page after upload
     return render_template('drive.html')
 
