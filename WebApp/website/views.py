@@ -94,6 +94,11 @@ def encrypt_file(filename, key):
 def home():
     print(current_user.is_authenticated)
     return render_template('login.html') 
+@views.route('/manage_users', methods=['get','POST'])       
+@login_required
+def manage_users():
+    
+    return render_template('manage_users.html', user=current_user)
 
 @views.route('/home', methods=['get','POST'])       
 @login_required
