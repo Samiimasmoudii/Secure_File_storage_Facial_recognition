@@ -99,7 +99,6 @@ def home():
 @login_required
 def drive():
     print(current_user.is_authenticated)
-    
     if current_user.is_authenticated:
         # If the user is authenticated, you can access their ID and name
         user_id = current_user.id
@@ -108,14 +107,17 @@ def drive():
         print(f"User ID: {user_id}, Username: {username}")
     else:
         print("Not logged in")
-    files = File.query.filter_by(user_id=user_id).all()
-    files = os.listdir(current_app.config['UPLOAD_FOLDER'])
-    print("Uploaded files are: ", files)
+
+    # Get filenames associated with the current user from the database
+    user_files = File.query.filter_by(user_id=current_user.id).with_entities(File.file_name).all()
+
+    print("Uploaded files are: ", user_files)
 
     # Prepare a list of dictionaries containing filename and its corresponding icon
-    file_icons = [{'name': file, 'icon': get_icon(file),} for file in files]
+    file_icons = [{'name': file.file_name, 'icon': get_icon(file.file_name)} for file in user_files]
 
-    return render_template('drive.html', user=current_user, files=file_icons) 
+    return render_template('drive.html', user=current_user, files=file_icons)
+ 
 
 
 #@views.route('/download/<path:encrypted_filename>',methods=['GET','POST'])
