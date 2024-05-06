@@ -55,14 +55,14 @@ def create_database(app):
         print('Database created successfully')
 
         # Ensure that the User table is created before the Note table
-        from .models import User, Note
+        from .models import User, Note,File
         db.session.commit()  # Commit any changes before creating tables
         db.reflect()
-        db.create_all(app=app, tables=[User.__table__])
-
+        
         # Create all other tables
+        db.create_all(app=app, tables=[User.__table__])
         db.create_all(app=app, tables=[Note.__table__])
-
+        db.create_all(app=app, tables=[File.__table__])
         print('All tables created successfully')
     else:
         print('Database already exists')

@@ -18,7 +18,7 @@ class File(db.Model):
     __tablename__ = 'file'  # Use lowercase for the table name
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), nullable=False)
-    file_size = db.Column(db.Integer, nullable=False)
+    file_size = db.Column(db.Integer)
     file_path = db.Column(db.String(255), nullable=False)
     upload_date = db.Column(db.DateTime, default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)  # Correct casing for the table name

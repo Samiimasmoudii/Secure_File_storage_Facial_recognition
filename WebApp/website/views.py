@@ -1,7 +1,10 @@
 from flask_login import login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app,send_from_directory,send_file
+from .models import File
 from werkzeug.utils import secure_filename
 from cryptography.fernet import Fernet
+from datetime import datetime
+from . import db
 import subprocess
 import shutil
 import os
@@ -105,7 +108,7 @@ def drive():
         print(f"User ID: {user_id}, Username: {username}")
     else:
         print("Not logged in")
-    
+    files = File.query.filter_by(user_id=user_id).all()
     files = os.listdir(current_app.config['UPLOAD_FOLDER'])
     print("Uploaded files are: ", files)
 
@@ -164,12 +167,26 @@ def upload_file():
             print('File Exists, Begin Uploading...')
             filename = secure_filename(file.filename)
             
-            file.save(os.path.join(current_app.config['TEMP_FILE_FOLDER'], filename))
-            flash('File Uploading...', 'success')
+            file_path = file.save(os.path.join(current_app.config['TEMP_FILE_FOLDER'], filename))
             
+            #file_stat = os.stat(file_path)
+            #file_size=file_stat.st_size
+            
+            #print('File size is ', file_size)
+            flash('File Uploading...file_path)uccess')
+            print ('File save in ', file_path)
             #file_relative_path = os.path.relpath(file.name, os.getcwd())
             encrypted_filename = encrypt_file(os.path.join(current_app.config['TEMP_FILE_FOLDER'], filename), key)
-            
+            new_file = File(
+                    file_name=os.path.basename(encrypted_filename),  # Use the encrypted filename
+                    #file_size=file_size,  # Get the file size
+                    file_path=os.path.join(current_app.config['UPLOAD_FOLDER'], os.path.basename(encrypted_filename)),  # Use the path where the file is saved
+                    upload_date=datetime.now(),  # Set the upload date
+                    user=current_user  # Link the file to the current user
+                )
+            db.session.add(new_file)
+            db.session.commit()
+
             os.rename(encrypted_filename, os.path.join(current_app.config['UPLOAD_FOLDER'], os.path.basename(encrypted_filename)))
             return redirect(url_for('views.drive'))  # Redirect to the drive page after upload
     return render_template('drive.html')
