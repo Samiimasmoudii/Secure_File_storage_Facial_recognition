@@ -15,6 +15,7 @@ def create_app():
     app.config['STATIC_URL_PATH'] = '/static'
     app.config['STATIC_FOLDER'] = 'static'
     app.config['TEMP_FILE_FOLDER']=r'WebApp\website\uploads\temp'
+    app.config['DOWNLOAD_FOLDER']=r'WebApp\website\download'
 
     upload_dir = os.path.join(app.instance_path, 'uploads')
     os.makedirs(upload_dir, exist_ok=True)

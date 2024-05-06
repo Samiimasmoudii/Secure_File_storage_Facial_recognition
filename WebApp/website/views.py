@@ -1,8 +1,9 @@
 from flask_login import login_required, current_user
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app,send_from_directory,send_file
 from werkzeug.utils import secure_filename
 from cryptography.fernet import Fernet
 import subprocess
+import shutil
 import os
 
 views = Blueprint('views', __name__)
@@ -20,6 +21,36 @@ def get_icon(filename):
     
 
 
+def decrypt_file(encrypted_filename, encryption_key):
+    try:
+        # Initialize the Fernet instance with the key
+        fernet = Fernet(encryption_key)
+
+        # Read the encrypted data from the file in the uploads folder
+        encrypted_file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], encrypted_filename)
+        with open(encrypted_file_path, 'rb') as encrypted_file:
+            encrypted_data = encrypted_file.read()
+
+        # Decrypt the data
+        decrypted_data = fernet.decrypt(encrypted_data)
+
+        # Determine the original file path and extension
+        base_filename, extension = os.path.splitext(encrypted_filename)
+        original_filename = base_filename.rsplit('_encrypted', 1)[0] + extension
+        
+        # Write the decrypted data to a new file in the temporary folder
+        decrypted_file_path = os.path.join(current_app.config['DOWNLOAD_FOLDER'], original_filename)
+        with open(decrypted_file_path, 'wb') as decrypted_file:
+            decrypted_file.write(decrypted_data)
+
+        print("File decrypted successfully:", decrypted_file_path)
+
+        # Pass the path of the decrypted file to the download function
+        return decrypted_file_path
+    
+    except Exception as e:
+        print("Error decrypting file:", str(e))
+        return None
 
 def encrypt_file(filename, key):
     try:
@@ -40,7 +71,7 @@ def encrypt_file(filename, key):
     base_filename, extension = os.path.splitext(filename)
 
     # Rename the encrypted file with the original extension
-    encrypted_filename = base_filename + '_encrypted' + extension
+    encrypted_filename = base_filename + extension
     with open(encrypted_filename, 'wb') as encrypted_file:
         encrypted_file.write(encrypted)
         
@@ -51,32 +82,6 @@ def encrypt_file(filename, key):
 
 
 
-
-def decrypt_file(original_filename, encryption_key) :
-    # Load the encryption key from the key file
-   
-
-    # Initialize the Fernet instance with the key
-    fernet = Fernet(encryption_key)
-    base_filename, extension = os.path.splitext(original_filename)
-    # Read the encrypted data from the file
-    encrypted_file_path = base_filename + extension
-    
-    with open(encrypted_file_path, 'rb') as encrypted_file:
-        encrypted_data = encrypted_file.read()
-
-    # Decrypt the data
-    decrypted_data = fernet.decrypt(encrypted_data)
-
-    # Determine the original file path and extension
-    
-    decrypted_file_path = base_filename + "_decrypted" + extension
-
-    # Write the decrypted data to a new file
-    with open(decrypted_file_path, 'wb') as decrypted_file:
-        decrypted_file.write(decrypted_data)
-
-    print("File decrypted successfully:", decrypted_file_path)
 
 
 
@@ -108,6 +113,37 @@ def drive():
     file_icons = [{'name': file, 'icon': get_icon(file),} for file in files]
 
     return render_template('drive.html', user=current_user, files=file_icons) 
+
+
+#@views.route('/download/<path:encrypted_filename>',methods=['GET','POST'])
+# def download(encrypted_filename): 
+    #print('download button pressed')
+    #decrypted_filepath = decrypt_file(encrypted_filename,key)
+    #print('File decrypted succesfully')
+    #directory, filename = os.path.split(decrypted_filepath)
+    #print('File ready to download')
+    #if "_encrypted" in filename:
+    #    filename = filename.replace("_encrypted", "")
+    #print (directory)
+    #print(filename)
+    #return send_from_directory(directory, filename)
+    #return send_from_directory('/uploads/temp',filename)
+    #return render_template('drive.html', user=current_user)
+@views.route('/download/<path:filename>', methods=['GET'])
+def download_file(filename):
+    decrypted_filepath = decrypt_file(filename, key)
+    if decrypted_filepath:
+        directory, filename = os.path.split(decrypted_filepath)
+        #if "_encrypted" in filename:
+           # filename = filename.replace("_encrypted", "")
+        filepath=os.path.join('.\download', filename)
+        return send_file(filepath, as_attachment=False)
+    else:
+        # Handle decryption error
+        flash("Error downloading file: decryption failed", 'error')
+        return redirect(url_for('views.drive'))
+
+
 
 @views.route('/upload', methods=['GET', 'POST'])       
 @login_required
@@ -153,3 +189,5 @@ def account():
         flash("Not logged in")
     
     return render_template('account.html', user=current_user) 
+
+
