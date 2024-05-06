@@ -1,103 +1,57 @@
-
 {% extends "base.html" %}
 <title>{% block title %}Sign UP{% endblock %}</title>
 
 {% block content %}
-   </head>
-   <body>
+</head>
+
+<body>
     <div class="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
         <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
             <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
                 User Management
-                        </div>
+            </div>
             <div class="p-3">
                 <table class="table-responsive w-full rounded">
                     <thead>
-                      <tr>
-                        <th class="border w-1/4 px-4 py-2">ID</th>
-                        <th class="border w-1/4 px-4 py-2">Name</th>
-                        <th class="border w-1/4 px-4 py-2">Email</th>
-                        <th class="border w-1/6 px-4 py-2">Storage</th>
-                        <th class="border w-1/5 px-4 py-2">Actions</th>
-                      </tr>
+                        <tr>
+                            <th class="border w-1/4 px-4 py-2">ID</th>
+                            <th class="border w-1/4 px-4 py-2">Name</th>
+                            <th class="border w-1/4 px-4 py-2">Email</th>
+                            <th class="border w-1/6 px-4 py-2">Storage</th>
+                            <th class="border w-1/5 px-4 py-2">Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
+                        {% for user in users %}
+                        {%print (user.name) %}
                         <tr>
-                            <td class="border px-4 py-2">1</td>
-                            <td class="border px-4 py-2">Sami</td>
-                            <td class="border px-4 py-2">MS</td>
-                            <td class="border px-4 py-2">1</td>
-                          
-                            <td class="border px-4 py-2">
-                                <button onclick="editItem()">Edit</button>
-
-                                <!-- Delete Button -->
-                                <button onclick="deleteItem()">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">2</td>
-                            <td class="border px-4 py-2">Test Test</td>
-                            <td class="border px-4 py-2">MS</td>
+                            <td class="border px-4 py-2">{{ user.id }}</td>
+                            <td class="border px-4 py-2">{{ user.first_name }}</td>
+                            <td class="border px-4 py-2">{{ user.email }}</td>
                             <td class="border px-4 py-2">0</td>
-                           
-                            <td class="border px-4 py-2">
-                                <button onclick="editItem()">Edit</button>
 
-                            <!-- Delete Button -->
-                            <button onclick="deleteItem()">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">3</td>
-                            <td class="border px-4 py-2">Aziz</td>
-                            <td class="border px-4 py-2">Aziz@Gmail.com</td>
-                            <td class="border px-4 py-2">900 </td>
-                           
-                            <td class="border px-4 py-2">
+                            <td class="border px-2 py-2">
                                 <button onclick="editItem()">Edit</button>
 
                                 <!-- Delete Button -->
-                                <button onclick="deleteItem()">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">4</td>
-                            <td class="border px-4 py-2">sami</td>
-                            <td class="border px-4 py-2">Sami@Sami.tn</td>
-                            <td class="border px-4 py-2">900 </td>
-                         
-                            <td class="border px-4 py-2">
-                                <button onclick="editItem()">Edit</button>
 
-                                <!-- Delete Button -->
-                                <button onclick="deleteItem()">Delete</button>
+                                <form method="POST" action="{{ url_for('views.delete_user', user_id=user.id) }}">
+                                    <button onclick="deleteItem()">Delete</button>
+                                </form>
                             </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">5</td>
-                            <td class="border px-4 py-2">Sydney</td>
-                            <td class="border px-4 py-2">Sydney@test.test</td>
-                            <td class="border px-4 py-2">0</td>
-                            
-                            <td class="border px-4 py-2">
-                                <button onclick="editItem()">Edit</button>
 
-                            <!-- Delete Button -->
-                            <button onclick="deleteItem()">Delete</button>
-                            </td>
-                            
-                    
-                        </tr>
-                        
-                    </tbody>    
-                </table >
-                <div style="Width:100px;"> <button class="btn btn-primary btn-block">Submit</button></div>
-               
-                
+                            {% endfor %}
+                    </tbody>
+                </table>
+                <div style="Width:100px;">
+                    <button class="btn btn-primary btn-block">Submit</button>
+                </div>
+
+
             </div>
         </div>
     </div>
-   </body>
-   </html>
-   {% endblock %}
+</body>
+
+</html>
+{% endblock %}

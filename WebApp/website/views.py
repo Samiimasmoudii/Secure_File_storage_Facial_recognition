@@ -1,6 +1,7 @@
 from flask_login import login_required, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app,send_from_directory,send_file
 from .models import File
+from .models import User
 from werkzeug.utils import secure_filename
 from cryptography.fernet import Fernet
 from datetime import datetime
@@ -88,6 +89,20 @@ def encrypt_file(filename, key):
 
 
 
+#######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
+######################################VIEWS #################################
 
 
 @views.route('/', methods=['get','POST'])
@@ -98,7 +113,23 @@ def home():
 @login_required
 def manage_users():
     
-    return render_template('manage_users.html', user=current_user)
+    users = User.query.all()  # Retrieve all users from the database
+    
+    
+    return render_template('manage_users.html', user=current_user,users=users)
+############# DELETE USER ########
+@views.route('/manage_users/delete/<int:user_id>', methods=['GET','POST'])
+@login_required
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        flash('User deleted successfully', 'success')
+    else:
+        flash('User not found', 'error')
+    return redirect(url_for('views.manage_users'))
+
 
 @views.route('/home', methods=['get','POST'])       
 @login_required
@@ -125,20 +156,7 @@ def drive():
  
 
 
-#@views.route('/download/<path:encrypted_filename>',methods=['GET','POST'])
-# def download(encrypted_filename): 
-    #print('download button pressed')
-    #decrypted_filepath = decrypt_file(encrypted_filename,key)
-    #print('File decrypted succesfully')
-    #directory, filename = os.path.split(decrypted_filepath)
-    #print('File ready to download')
-    #if "_encrypted" in filename:
-    #    filename = filename.replace("_encrypted", "")
-    #print (directory)
-    #print(filename)
-    #return send_from_directory(directory, filename)
-    #return send_from_directory('/uploads/temp',filename)
-    #return render_template('drive.html', user=current_user)
+
 @views.route('/download/<path:filename>', methods=['GET'])
 def download_file(filename):
     decrypted_filepath = decrypt_file(filename, key)
