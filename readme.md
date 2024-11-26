@@ -1,8 +1,5 @@
 //////////// Requirements 
 
-You typically update the `requirements.txt` file whenever you add, remove, or update dependencies in your project. This ensures that anyone else who wants to work on your project can easily set up the same environment with the required dependencies.
-
-Here's a general workflow for managing the `requirements.txt` file:
 
 1. **Initial Setup**: After creating a virtual environment for your project, generate the `requirements.txt` file with the command:
 
